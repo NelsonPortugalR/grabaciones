@@ -318,6 +318,63 @@
     </style>
 </head>
 <body>
+<!-- Pantalla de login -->
+<div id="login-screen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(31, 41, 55, 0.95); z-index: 9999; display: flex; justify-content: center; align-items: center;">
+    <div style="background-color: white; padding: 2rem; border-radius: 8px; width: 90%; max-width: 400px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);">
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+            <span style="font-size: 3rem; margin-bottom: 1rem; display: block;">🧠</span>
+            <h2 style="font-size: 1.5rem; color: var(--dark); margin-bottom: 0.5rem;">Taller de IA Aplicada</h2>
+            <p style="color: var(--gray); font-size: 0.9rem;">Ingresa el código de acceso para continuar</p>
+        </div>
+        <div style="margin-bottom: 1.5rem;">
+            <input type="password" id="access-code" placeholder="Código de acceso" style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem; margin-bottom: 0.5rem;">
+            <p id="error-message" style="color: var(--danger); font-size: 0.85rem; display: none; margin-top: 0.5rem;">Código incorrecto. Inténtalo de nuevo.</p>
+        </div>
+        <button id="login-button" class="btn btn-primary" style="width: 100%;">Acceder</button>
+    </div>
+</div>
+
+<!-- Script para el login -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginScreen = document.getElementById('login-screen');
+        const accessCode = document.getElementById('access-code');
+        const loginButton = document.getElementById('login-button');
+        const errorMessage = document.getElementById('error-message');
+        
+        // Código de acceso - Cámbialo por el que prefieras
+        const correctCode = "taller2025";
+        
+        // Verificar si ya está autenticado
+        if (localStorage.getItem('tallerIAAuth') === 'true') {
+            loginScreen.style.display = 'none';
+        }
+        
+        // Función para verificar el código
+        function checkAccessCode() {
+            if (accessCode.value === correctCode) {
+                // Código correcto
+                localStorage.setItem('tallerIAAuth', 'true');
+                loginScreen.style.display = 'none';
+                errorMessage.style.display = 'none';
+            } else {
+                // Código incorrecto
+                errorMessage.style.display = 'block';
+                accessCode.value = '';
+                accessCode.focus();
+            }
+        }
+        
+        // Event listeners
+        loginButton.addEventListener('click', checkAccessCode);
+        
+        accessCode.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAccessCode();
+            }
+        });
+    });
+</script>
     <header>
         <div class="container header-content">
             <div class="logo">
